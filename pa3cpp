@@ -1,0 +1,110 @@
+/*#include <iostream>
+#include <string>
+#include <fstream>
+#include "pa3.h"
+
+int main() {
+	char *words[] = { "FOR","BEGIN","END" };
+	//char *identifiers[10];
+	char *operators[] = { "+","-","/","*","++","=","%" };
+	char delim[] = ";, ()";
+	//Stack *error;
+	//Stack *par;
+	std::ifstream file("test1.txt");
+	std::string content;
+	std::string copy;
+	while (std::getline(file, content)) {
+		copy += content;
+	}
+	char *str = (char *)copy.c_str();
+	//while (std::getline(file, content)) {
+		//for (int i = 1; i < content.size(); i++) {
+			//char *str = (char *)content.c_str();
+			//char *copy = _strdup(str);
+			char *token[1000], *token_after;
+			size_t n = 0;
+
+			for (char *p = strtok_s(str, delim, &token_after); p; p = strtok_s(NULL, delim, &token_after))
+			{
+				if (n >= 1000)
+				{
+					// maximum number of storable tokens exceeded
+					break;
+				}
+				token[n++] = p;
+			}
+			for (int i = 0; i != n; i++) {
+				printf("%s\n", token[i]);
+			}
+			//char *copy = new char[content.length()+1];
+			//strcpy_s(copy, content.length(),str);
+			/*while (token != NULL)
+			{
+				printf("%s\n", token);
+				//int from = token - str + strlen(token);
+				token = strtok_s(NULL, delim, &token_after);
+				//int to = token != NULL ? token - str : strlen(copy);
+				//printf("%.*s\n", to - from, copy + from);
+			}*/
+			//}
+			/*for (int i = 0; i < content.size(); i++) {
+				if (content[i] == '(') {
+					par->push('(');
+				}
+				if (content[i] == ')') {
+					if (par->isEmpty())
+						error->push(')');
+					else
+						par->push(')');
+				}
+				if (content[i] == ',' || content[i] == ';') {
+
+				}
+
+			}*/
+		//}
+	//}
+	//std::cout << cap;
+	//std::getline(file, content);
+	//std::cout << content;
+	//while (std::getline(file,content)) {
+	//}
+	//std::string content((std::istreambuf_iterator<char>(file)),
+		//(std::istreambuf_iterator<char>()));
+	//std::cout << content << std::endl;
+// }
+#include <iostream>
+class Stack {
+public:
+	char **stack;
+	int top;
+	int max;
+	Stack(int num) {
+		top = -1;
+		max = num;
+		stack = new char*[max];
+	}
+	void Stack::push(char c) {
+		if (top == max)
+			std::cout << "Stack is full!";
+		else
+			*stack[top++] = c;
+	}
+	void Stack::pop() {
+		if (top == 0)
+			return;
+		else {
+			//return stack[top];
+			top--;
+		}
+	}
+	char Stack::peek() {
+		return *stack[top];
+	}
+	bool Stack::isEmpty() {
+		if (top == 0)
+			return true;
+		else
+			return false;
+	}
+};
