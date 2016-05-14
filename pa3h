@@ -1,0 +1,90 @@
+#pragma once
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <string.h>
+//Program Assignment #3
+//By: Prakash Pudhucode COP3503
+//Due: April 11,2016
+class Stack {
+public:
+	std::string* stack;
+	int top;//top is the index of the most recent stack element - by default set to -1 if empty
+	int max;
+	Stack(int num) {//constructor - sets size and top
+		top = -1;
+		max = num;
+		stack = new std::string[max];
+	}
+	void push(std::string s) {//pushes element onto stack at the end
+		if (top == max)
+			std::cout << "Stack is full!";
+		else{
+			top++;
+			stack[top] = s;
+		}
+	}
+	std::string pop() {//pops latest element of stack
+		std::string s;
+		if (top == -1)
+			s= "Stack is empty!";
+		else
+			s = stack[top--];
+		return s;
+	}
+	std::string peek() {//peek function - not used much but typical of stack classes
+		return stack[top];
+	}
+	std::string print() {//doesn't actually print, but returns a string of the stack contents
+		std::string print= "";
+		for (int i = 0; i <= top; i++) {
+			print = print + stack[i]+ " ";
+		}
+		return print;
+	}
+	bool duplicate(std::string s) {//checks for duplicates
+		bool b = false;
+		for (int i = 0; i <= top; i++) {
+			std::string temp = stack[i];
+			if (s == stack[i]) {
+				b = true;
+				break;
+			}
+			else
+				b = false;
+		}
+		return b;
+	}
+};
+std::string parse(char *str, char const* delim) {//parses through string and uses delimiters to tokenize string
+	std::string x = "";
+	char *token, *token_after;
+	token = strtok_s(str, delim, &token_after);//THIS METHOD WORKS ON WINDOWS COMPUTERS BUT NOT LINUX FOR SOME REASON
+	while (token != NULL) {
+		std::string s(token);
+		x = x + s + " ";
+		token = strtok_s(NULL, delim, &token_after);//!!!!!!!! SAME PROBLEM !!!!
+	}
+	return x;
+}
+bool compare(std::string og, std::string mod) {//compares strings to see if they are equal - if they are, the string wasn't delimiterized
+	if (og != mod)
+		return true;
+	else
+		return false;
+}
+Stack fparse(char *str, char const* delim) {//final parse - this doesn't make a string with spaces, but instead pushes them onto stack
+	Stack *temp = new Stack(1000);
+	char *token, *token_after;
+	token = strtok_s(str, delim, &token_after);
+	while (token != NULL) {
+		//printf("%s\n", token);
+		std::string s(token);
+		temp->push(s);
+		token = strtok_s(NULL, delim, &token_after);
+	}
+	return *temp;
+}
+int size(Stack stack) {//returns used size of the stack - I set stack size default to 1000 to ensure no array out of bounds errors
+	return (stack.top +1);
+}
